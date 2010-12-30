@@ -1,0 +1,14 @@
+all:
+  sf_amazon_plugin:
+    access_key: 123456123456123
+    secret_key: 123456987987654
+
+  sf_amazon_s3:
+    enabled: true
+    bucket: bucketName
+
+
+
+
+
+
