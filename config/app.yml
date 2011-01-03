@@ -3,11 +3,11 @@ all:
     access_key: 123456123456123
     secret_key: 123456987987654
 
-  sf_amazon_s3:
+  sf_amazon_plugin_s3:
     enabled: false
     bucket: bucketName
 
-  sf_amazon_ec2:
+  sf_amazon_plugin_ec2:
     enable: false
 
 
