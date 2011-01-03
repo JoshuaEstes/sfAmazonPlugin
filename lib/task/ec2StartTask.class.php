@@ -1,6 +1,6 @@
 <?php
 
-class ec2DeployTask extends sfBaseTask
+class ec2StartTask extends sfBaseTask
 {
   protected function configure()
   {
@@ -9,23 +9,21 @@ class ec2DeployTask extends sfBaseTask
     //   new sfCommandArgument('my_arg', sfCommandArgument::REQUIRED, 'My argument'),
     // ));
 
-//    $this->addOptions(array(
-//      new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name'),
-//      new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
-//      new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'doctrine'),
-//      // add your own options here
-//    ));
+    $this->addOptions(array(
+      new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name'),
+      new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
+      new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'doctrine'),
+      // add your own options here
+    ));
 
     $this->namespace        = 'ec2';
-    $this->name             = 'deploy';
-    $this->briefDescription = 'Deploy to a ec2 instance';
+    $this->name             = 'start';
+    $this->briefDescription = 'Start an ec2 instance';
     $this->detailedDescription = <<<EOF
-The [ec2:deploy|INFO] task does things.
+The [ec2:start|INFO] task does things.
 Call it with:
 
-  [php symfony ec2:deploy|INFO]
-
-
+  [php symfony ec2:start|INFO]
 EOF;
   }
 
