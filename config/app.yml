@@ -4,8 +4,11 @@ all:
     secret_key: 123456987987654
 
   sf_amazon_s3:
-    enabled: true
+    enabled: false
     bucket: bucketName
+
+  sf_amazon_ec2:
+    enable: false
 
 
 
