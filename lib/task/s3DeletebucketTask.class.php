@@ -4,35 +4,49 @@ class s3DeletebucketTask extends sfBaseTask
 {
   protected function configure()
   {
-    // // add your own arguments here
-    // $this->addArguments(array(
-    //   new sfCommandArgument('my_arg', sfCommandArgument::REQUIRED, 'My argument'),
-    // ));
+     $this->addArguments(array(
+       new sfCommandArgument('bucket', sfCommandArgument::REQUIRED, 'Name of bucket'),
+     ));
 
     $this->addOptions(array(
-      new sfCommandOption('application', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name'),
+      new sfCommandOption('app', null, sfCommandOption::PARAMETER_REQUIRED, 'The application name','frontend'),
       new sfCommandOption('env', null, sfCommandOption::PARAMETER_REQUIRED, 'The environment', 'dev'),
       new sfCommandOption('connection', null, sfCommandOption::PARAMETER_REQUIRED, 'The connection name', 'doctrine'),
-      // add your own options here
+      new sfCommandOption('force', null, sfCommandOption::PARAMETER_NONE, 'Force remove of bucket and all files'),
     ));
 
     $this->namespace        = 's3';
     $this->name             = 'delete-bucket';
-    $this->briefDescription = '';
+    $this->briefDescription = 'Delete an Amazon S3 Bucket';
     $this->detailedDescription = <<<EOF
 The [s3:delete-bucket|INFO] task does things.
 Call it with:
 
-  [php symfony s3:delete-bucket|INFO]
+  [php symfony s3:delete-bucket bucketName|INFO]
 EOF;
   }
 
   protected function execute($arguments = array(), $options = array())
   {
-    // initialize the database connection
-    $databaseManager = new sfDatabaseManager($this->configuration);
-    $connection = $databaseManager->getDatabase($options['connection'])->getConnection();
+    $this->configuration = ProjectConfiguration::getApplicationConfiguration($options['app'], $options['env'], true);
 
-    // add your code here
+    if (!sfConfig::get('app_sf_amazon_plugin_access_key', false))
+      throw new sfException(sprintf('You have not set an amazon access key'));
+
+    if (!sfConfig::get('app_sf_amazon_plugin_secret_key', false))
+      throw new sfException(sprintf('You have not set an amazon secret key'));
+
+    $s3 = new AmazonS3(sfConfig::get('app_sf_amazon_plugin_access_key'), sfConfig::get('app_sf_amazon_plugin_secret_key'));
+
+    $response = $s3->delete_bucket($arguments['bucket'], $options['force']);
+
+    if ($response->isOk())
+    {
+      $this->logSection('Bucket-', sprintf('"%s" bucket has been deleted',$arguments['bucket']));
+    }
+    else
+    {
+      throw new sfException($this->body->Message);
+    }
   }
 }
