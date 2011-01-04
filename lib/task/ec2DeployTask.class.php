@@ -18,6 +18,11 @@ class ec2deployTask extends sfBaseTask
       new sfCommandOption('go', null, sfCommandOption::PARAMETER_NONE, 'Do the deployment'),
       new sfCommandOption('rsync-dir', null, sfCommandOption::PARAMETER_REQUIRED, 'The directory where to look for rsync*.txt files', 'config'),
       new sfCommandOption('rsync-options', null, sfCommandOption::PARAMETER_OPTIONAL, 'To options to pass to the rsync executable', '-azvC --force --delete --progress'),
+//      new sfCommandOption('host', null, sfCommandOption::PARAMETER_OPTIONAL, 'hostname', null),
+//      new sfCommandOption('port', null, sfCommandOption::PARAMETER_OPTIONAL, 'port', 22),
+//      new sfCommandOption('user', null, sfCommandOption::PARAMETER_OPTIONAL, 'username', null),
+//      new sfCommandOption('dir', null, sfCommandOption::PARAMETER_OPTIONAL, 'remote directory path', null),
+//      new sfCommandOption('key', null, sfCommandOption::PARAMETER_OPTIONAL, 'path to key', null),
     ));
 
     $this->namespace        = 'ec2';
@@ -65,9 +70,9 @@ you can pass a [rsync-dir|COMMENT] option:
   [./symfony project:ec2-deploy --go --rsync-dir=config/production cloud|INFO]
 
 Last, you can specify the options passed to the rsync executable, using the
-[rsync-options|INFO] option (defaults are [-azC --force --delete --progress|INFO]):
+[rsync-options|INFO] option (defaults are [-avzC --force --delete --progress|INFO]):
 
-  [./symfony project:ec2-deploy --go --rsync-options=-avz|INFO]
+  [./symfony project:ec2-deploy --go --rsync-options=-avz cloud|INFO]
 EOF;
   }
 
